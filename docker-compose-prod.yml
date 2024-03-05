@@ -1,0 +1,23 @@
+# To run specific docker-compose:
+# docker compose -f docker-compose.dev.yml up --build
+version: "3.9"
+services:
+  client-react:
+    image: client-react-vite:prod
+    build:
+      context: ./
+      target: build
+    init: true
+    volumes:
+      - type: bind
+        source: ./vite.config.js
+        target: /usr/src/app/vite.config.js
+    networks:
+      - frontend
+    ports:
+      - "4173:4173"
+volumes:
+  pgdata:
+networks:
+  frontend:
+    driver: bridge
